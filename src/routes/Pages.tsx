@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import { useSelector } from "react-redux";
 import { AppState } from "../store";
@@ -13,9 +17,13 @@ const Pages = () => {
 
   const LoggedOutPages = createBrowserRouter([
     {
-      path: "/",
+      path: "/login",
       element: <LoginPage />,
       ...errorElement,
+    },
+    {
+      path: "*",
+      element: <Navigate to="/login" />,
     },
   ]);
 
@@ -24,6 +32,10 @@ const Pages = () => {
       path: "/",
       element: <Servers />,
       ...errorElement,
+    },
+    {
+      path: "*",
+      element: <Navigate to="/" />,
     },
   ]);
 

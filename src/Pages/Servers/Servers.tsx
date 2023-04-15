@@ -10,9 +10,12 @@ const Servers = () => {
   const servers = useSelector(
     (state: AppState) => state.serversReducer.servers
   );
+  const isLoading = useSelector(
+    (state: AppState) => state.serversReducer.isLoading
+  );
 
   useEffect(() => {
-    if (!servers) dispatch(getServers() as any);
+    if (!servers && !isLoading) dispatch(getServers() as any);
   }, []);
 
   if (!servers) {
@@ -37,15 +40,21 @@ const Servers = () => {
           </p>
           <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
             {servers.map((server) => (
-              <div key={server.name}>
+              <div key={server.name + server.distance}>
                 <li className="pb-3 sm:pb-4">
                   <div className="flex items-center space-x-4">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      <p
+                        data-testid="server-name"
+                        className="text-sm font-medium text-gray-900 truncate dark:text-white"
+                      >
                         {server.name}
                       </p>
                     </div>
-                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                    <div
+                      data-testid="server-distance"
+                      className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
+                    >
                       {server.distance}
                     </div>
                   </div>

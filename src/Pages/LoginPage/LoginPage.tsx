@@ -2,21 +2,15 @@ import { useDispatch } from "react-redux";
 import Button from "../../common/Button/Button";
 import Heading from "../../common/Heading/Heading";
 import Input from "../../common/Input/Input";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { logIn } from "../../store/auth/auth.actions";
 
-type FormData = {
-  username: string;
-  password: string;
-};
-
 const LoginPage = () => {
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FieldValues>();
   const dispatch = useDispatch();
 
-  const submitForm = (data: FormData) => {
-    dispatch(logIn(data.username.trim(), data.password.trim()) as any);
-    console.log(data);
+  const submitForm = (data: FieldValues) => {
+    dispatch(logIn(data.username?.trim(), data.password?.trim()) as any);
   };
 
   return (
@@ -53,7 +47,7 @@ const LoginPage = () => {
                     register={register}
                   />
                 </div>
-                <Button text="Sign in" />
+                <Button text="Sign in" type="submit" />
               </form>
             </div>
           </div>

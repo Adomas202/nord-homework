@@ -7,6 +7,16 @@ import { Server } from "../../abstractions/Server";
 
 const baseUrl = Config;
 
+export interface FetchServersRequest {
+  type: constants.FetchServersRequest;
+}
+
+function fetchServersRequest(): FetchServersRequest {
+  return {
+    type: constants.FETCH_SERVERS_REQUEST,
+  };
+}
+
 export interface FetchServersSuccess {
   type: constants.FetchServersSuccess;
   servers: Server[];
@@ -33,6 +43,7 @@ function ServersError(error: Error): ServersError {
 
 export function getServers() {
   return async (dispatch: Dispatch<any, unknown, any>) => {
+    dispatch(fetchServersRequest());
     try {
       const response = await axios.get(`${baseUrl}/servers`);
 

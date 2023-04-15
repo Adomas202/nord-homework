@@ -1,3 +1,6 @@
+export const FETCH_SERVERS_REQUEST = 'FETCH_SERVERS_REQUEST';
+export type FetchServersRequest = typeof FETCH_SERVERS_REQUEST;
+
 export const FETCH_SERVERS_SUCCESS = 'FETCH_SERVERS_SUCCESS';
 export type FetchServersSuccess = typeof FETCH_SERVERS_SUCCESS;
 

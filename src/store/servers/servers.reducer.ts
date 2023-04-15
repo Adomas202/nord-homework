@@ -1,5 +1,13 @@
-import { FETCH_SERVERS_SUCCESS, SERVERS_ERROR } from "./servers.constants";
-import { FetchServersSuccess, ServersError } from "./servers.actions";
+import {
+  FETCH_SERVERS_SUCCESS,
+  SERVERS_ERROR,
+  FETCH_SERVERS_REQUEST,
+} from "./servers.constants";
+import {
+  FetchServersSuccess,
+  ServersError,
+  FetchServersRequest,
+} from "./servers.actions";
 import { Server } from "../../abstractions/Server";
 
 export interface ServersReducer {
@@ -12,9 +20,12 @@ export default function serversReducer(
     servers: null,
     isLoading: false,
   },
-  action: FetchServersSuccess | ServersError
+  action: FetchServersSuccess | ServersError | FetchServersRequest
 ): ServersReducer {
   switch (action.type) {
+    case FETCH_SERVERS_REQUEST: {
+      return { ...state, isLoading: true };
+    }
     case FETCH_SERVERS_SUCCESS: {
       const servers = action.servers;
       servers.sort((a, b) => {
