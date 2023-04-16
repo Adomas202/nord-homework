@@ -27,14 +27,6 @@ export default function serversReducer(
       return { ...state, isLoading: true };
     }
     case FETCH_SERVERS_SUCCESS: {
-      const servers = action.servers;
-      servers.sort((a, b) => {
-        if (a.distance === b.distance) {
-          return a.name.localeCompare(b.name);
-        }
-        return a.distance - b.distance;
-      });
-
       return {
         ...state,
         servers: action.servers,

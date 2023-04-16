@@ -4,6 +4,7 @@ import { logOut } from "../../store/auth/auth.actions";
 import { useEffect } from "react";
 import { getServers } from "../../store/servers/servers.actions";
 import { AppState } from "../../store";
+import ServersTable from "./ServersTable/ServersTable";
 
 const Servers = () => {
   const dispatch = useDispatch();
@@ -38,30 +39,7 @@ const Servers = () => {
           <p className="mt-1 max-w-2xl text-sm text-gray-500">
             Name and distance from the server.
           </p>
-          <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-            {servers.map((server) => (
-              <div key={server.name + server.distance}>
-                <li className="pb-3 sm:pb-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-1 min-w-0">
-                      <p
-                        data-testid="server-name"
-                        className="text-sm font-medium text-gray-900 truncate dark:text-white"
-                      >
-                        {server.name}
-                      </p>
-                    </div>
-                    <div
-                      data-testid="server-distance"
-                      className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
-                    >
-                      {server.distance}
-                    </div>
-                  </div>
-                </li>
-              </div>
-            ))}
-          </ul>
+          <ServersTable servers={servers} />
         </div>
       </div>
     </div>
