@@ -1,3 +1,6 @@
+export const REQUEST_AUTH = "REQUEST_AUTH";
+export type RequestAuth = typeof REQUEST_AUTH;
+
 export const AUTHENTICATE = "AUTHENTICATE";
 export type Authenticate = typeof AUTHENTICATE;
 

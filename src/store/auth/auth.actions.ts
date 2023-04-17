@@ -6,6 +6,16 @@ import Config from "../../Config";
 
 const baseUrl = Config;
 
+export interface RequestAuth {
+  type: constants.RequestAuth;
+}
+
+function requestAuth(): RequestAuth {
+  return {
+    type: constants.REQUEST_AUTH,
+  };
+}
+
 export interface Authenticate {
   type: constants.Authenticate;
 }
@@ -56,6 +66,7 @@ export type AuthenticationAction = Authenticate | Unauthenticate | AuthFailure;
 
 export function logIn(username: string, password: string) {
   return async (dispatch: Dispatch<AuthenticationAction, unknown, any>) => {
+    dispatch(requestAuth());
     try {
       const response = await axios.post(`${baseUrl}/tokens`, {
         username,

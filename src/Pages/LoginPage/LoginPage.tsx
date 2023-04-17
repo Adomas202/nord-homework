@@ -5,11 +5,15 @@ import { FieldValues, useForm } from "react-hook-form";
 import { clearErrors, logIn } from "../../store/auth/auth.actions";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 const LoginPage = () => {
   const { register, handleSubmit } = useForm<FieldValues>();
   const dispatch = useDispatch();
   const authError = useSelector((state: AppState) => state.authReducer.error);
+  const isLoading = useSelector(
+    (state: AppState) => state.authReducer.isLoading
+  );
 
   const submitForm = (data: FieldValues) => {
     dispatch(logIn(data.username?.trim(), data.password?.trim()));
@@ -27,7 +31,10 @@ const LoginPage = () => {
               onSubmit={handleSubmit(submitForm)}
             >
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="username">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="username"
+                >
                   Username
                 </label>
                 <Input
@@ -38,7 +45,10 @@ const LoginPage = () => {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="password">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <Input
@@ -48,7 +58,11 @@ const LoginPage = () => {
                   register={register}
                 />
               </div>
-              <Button text="Sign in" type="submit" />
+              {isLoading ? (
+                <LoadingSpinner />
+              ) : (
+                <Button text="Sign in" type="submit" />
+              )}
             </form>
             {!!authError && (
               <div
