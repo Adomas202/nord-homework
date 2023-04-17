@@ -8,3 +8,8 @@ export enum SortDirection {
   DESC = "desc",
   NONE = "none",
 }
+
+export enum ServerHeading {
+  NAME = "Name",
+  DISTANCE = "Distance",
+}

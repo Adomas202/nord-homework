@@ -31,25 +31,30 @@ function fetchServersSuccess(servers: Server[]): FetchServersSuccess {
 
 export interface ServersError {
   type: constants.ServersError;
-  error: Error;
+  error: Error | unknown;
 }
 
-function ServersError(error: Error): ServersError {
+function ServersError(error: Error | unknown): ServersError {
   return {
     type: constants.SERVERS_ERROR,
     error,
   };
 }
 
+export type ServersAction =
+  | FetchServersRequest
+  | FetchServersSuccess
+  | ServersError;
+
 export function getServers() {
-  return async (dispatch: Dispatch<any, unknown, any>) => {
+  return async (dispatch: Dispatch<ServersAction, unknown, any>) => {
     dispatch(fetchServersRequest());
     try {
       const response = await axios.get(`${baseUrl}/servers`);
 
       dispatch(fetchServersSuccess(response.data));
     } catch (error) {
-      dispatch(ServersError(error as any));
+      dispatch(ServersError(error));
     }
   };
 }

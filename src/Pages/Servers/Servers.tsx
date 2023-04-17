@@ -1,44 +1,39 @@
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../../common/Button/Button";
-import { logOut } from "../../store/auth/auth.actions";
 import { useEffect } from "react";
 import { getServers } from "../../store/servers/servers.actions";
 import { AppState } from "../../store";
 import ServersTable from "./ServersTable/ServersTable";
+import Heading from "../../components/Heading/Heading";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import Navbar from "../../components/Navbar/Navbar";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 const Servers = () => {
   const dispatch = useDispatch();
   const servers = useSelector(
     (state: AppState) => state.serversReducer.servers
   );
+  const error = useSelector((state: AppState) => state.serversReducer.error);
   const isLoading = useSelector(
     (state: AppState) => state.serversReducer.isLoading
   );
 
   useEffect(() => {
-    if (!servers && !isLoading) dispatch(getServers() as any);
+    if (!servers && !isLoading) dispatch(getServers());
   }, []);
 
-  if (!servers) {
-    return <div>Loading...</div>;
+  if (!servers || isLoading) {
+    return <LoadingSpinner />;
+  } else if (error) {
+    return <ErrorPage />;
   }
 
   return (
     <div>
-      <Button
-        text="Logout"
-        onClick={() => {
-          dispatch(logOut() as any);
-        }}
-      />
+      <Navbar />
       <div className="overflow-hidden bg-white shadow sm:rounded-lg">
         <div className="px-4 py-5 sm:px-6">
-          <h3 className="text-base font-semibold leading-6 text-gray-900">
-            Servers information
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm text-gray-500">
-            Name and distance from the server.
-          </p>
+          <Heading text="Servers information" className="py-5" />
           <ServersTable servers={servers} />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { SortDirection } from "../abstractions/Server";
-import { SortDownIcon, SortIcon, SortUpIcon } from "../common/Icons/Icons";
+import { SortDownIcon, SortIcon, SortUpIcon } from "../components/Icons/Icons";
 
 export const getSortIcon = (sortDirection: SortDirection) => {
   switch (sortDirection) {

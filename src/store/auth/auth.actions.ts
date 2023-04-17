@@ -2,7 +2,6 @@ import { ThunkDispatch as Dispatch } from "redux-thunk";
 import axios from "axios";
 
 import * as constants from "./auth.constants";
-import { User } from "../../abstractions/User";
 import Config from "../../Config";
 
 const baseUrl = Config;
@@ -33,10 +32,10 @@ function unauthenticate(): Unauthenticate {
 
 export interface AuthFailure {
   type: constants.AuthFailure;
-  error: Error;
+  error: Error | unknown;
 }
 
-function authError(error: Error): AuthFailure {
+function authError(error: Error | unknown): AuthFailure {
   return {
     type: constants.AUTH_FAILURE,
     error,
@@ -58,8 +57,6 @@ export type AuthenticationAction = Authenticate | Unauthenticate | AuthFailure;
 export function logIn(username: string, password: string) {
   return async (dispatch: Dispatch<AuthenticationAction, unknown, any>) => {
     try {
-      //   window.localStorage.removeItem("token");
-      //   delete axios.defaults.headers.common["Authorization"];
       const response = await axios.post(`${baseUrl}/tokens`, {
         username,
         password,
@@ -72,7 +69,7 @@ export function logIn(username: string, password: string) {
         dispatch(unauthenticate());
       }
     } catch (error) {
-      dispatch(authError(error as Error)); // TODO: Find a better way to handle this
+      dispatch(authError(error));
     }
   };
 }

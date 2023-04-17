@@ -1,16 +1,18 @@
-import Button from "../../common/Button/Button";
-import Heading from "../../common/Heading/Heading";
-import Input from "../../common/Input/Input";
+import Button from "../../components/Button/Button";
+import Heading from "../../components/Heading/Heading";
+import Input from "../../components/Input/Input";
 import { FieldValues, useForm } from "react-hook-form";
-import { logIn } from "../../store/auth/auth.actions";
-import { useAppDispatch } from "../../store";
+import { clearErrors, logIn } from "../../store/auth/auth.actions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../store";
 
 const LoginPage = () => {
   const { register, handleSubmit } = useForm<FieldValues>();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
+  const authError = useSelector((state: AppState) => state.authReducer.error);
 
   const submitForm = (data: FieldValues) => {
-    dispatch(logIn(data.username?.trim(), data.password?.trim()) as any);
+    dispatch(logIn(data.username?.trim(), data.password?.trim()));
   };
 
   return (
@@ -25,7 +27,7 @@ const LoginPage = () => {
               onSubmit={handleSubmit(submitForm)}
             >
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="username">
                   Username
                 </label>
                 <Input
@@ -36,7 +38,7 @@ const LoginPage = () => {
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="password">
                   Password
                 </label>
                 <Input
@@ -48,6 +50,32 @@ const LoginPage = () => {
               </div>
               <Button text="Sign in" type="submit" />
             </form>
+            {!!authError && (
+              <div
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <span className="block sm:inline">
+                  <strong>Invalid</strong> username or password!
+                </span>
+                <span
+                  className="absolute top-0 bottom-0 right-0 px-4 py-3"
+                  onClick={() => {
+                    dispatch(clearErrors());
+                  }}
+                >
+                  <svg
+                    className="fill-current h-6 w-6 text-red-500"
+                    role="button"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                  </svg>
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

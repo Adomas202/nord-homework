@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { Server, SortDirection } from "../../../abstractions/Server";
+import {
+  Server,
+  ServerHeading,
+  SortDirection,
+} from "../../../abstractions/Server";
 import { getSortIcon } from "../../../utils/getSortIcon";
 import { nextSortDirection } from "../../../utils/getNextSortDirection";
 import { sortByDistance } from "../../../utils/sort";
@@ -16,11 +20,11 @@ interface Column {
 
 const col: Column[] = [
   {
-    header: "Name",
+    header: ServerHeading.NAME,
     sortDirection: SortDirection.NONE,
   },
   {
-    header: "Distance",
+    header: ServerHeading.DISTANCE,
     sortDirection: SortDirection.NONE,
   },
 ];
@@ -34,7 +38,7 @@ const ServersTable = ({ servers }: Props) => {
     if (sortDirection === SortDirection.NONE) {
       return [...servers];
     }
-    if (column.header === "Distance") {
+    if (column.header === ServerHeading.DISTANCE) {
       return sortByDistance(prevServers, sortDirection);
     }
     return sortByName(prevServers, sortDirection);
@@ -52,42 +56,52 @@ const ServersTable = ({ servers }: Props) => {
     });
 
   return (
-    <table>
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th
-              key={column.header}
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              <div className="flex items-center justify-between">
-                {column.header}
-                <button
-                  onClick={() => {
-                    setColumns(getUpdatedColumns(columns, column));
-                    setSortedServersList((prev) => sortServers(prev, column));
-                  }}
-                >
-                  {getSortIcon(column.sortDirection)}
-                </button>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedServersList.map((server) => (
-          <tr
-            key={`${server.name}-${server.distance}`}
-            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-          >
-            <td>{server.name}</td>
-            <td>{server.distance}</td>
+    <div className="relative overflow-x-auto">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            {columns.map((column) => (
+              <th
+                key={column.header}
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                <div className="flex items-center justify-between">
+                  {column.header}
+                  <button
+                    onClick={() => {
+                      setColumns(getUpdatedColumns(columns, column));
+                      setSortedServersList((prev) => sortServers(prev, column));
+                    }}
+                  >
+                    {getSortIcon(column.sortDirection)}
+                  </button>
+                </div>
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {sortedServersList.map((server) => (
+            <tr
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              key={`${server.name}-${server.distance}`}
+            >
+              <th
+                scope="row"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                data-testid="server-name"
+              >
+                {server.name}
+              </th>
+              <td className="px-6 py-4" data-testid="server-distance">
+                {server.distance}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

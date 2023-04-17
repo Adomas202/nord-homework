@@ -6,6 +6,8 @@ import { getServers } from "../../store/servers/servers.actions";
 import axios from "axios";
 import { vi } from "vitest";
 
+axios.get = vi.fn();
+
 describe("Test servers rendering", () => {
   it("renders loader", () => {
     const { getByText } = renderWithProviders(<Servers />);
@@ -13,7 +15,6 @@ describe("Test servers rendering", () => {
   });
 
   it("renders server list from store", async () => {
-    axios.get = vi.fn();
     const mockedAxios = axios.get as jest.Mock;
     const store = setupStore();
     const mockedResponse = {
@@ -24,7 +25,7 @@ describe("Test servers rendering", () => {
     };
     mockedAxios.mockResolvedValue(mockedResponse);
 
-    store.dispatch(getServers());
+    store.dispatch(getServers() as any);
 
     const { getAllByTestId } = renderWithProviders(<Servers />, { store });
 

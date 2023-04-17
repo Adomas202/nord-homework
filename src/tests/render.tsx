@@ -8,11 +8,8 @@ import serversReducer from "../store/servers/servers.reducer";
 export function renderWithProviders(
   ui: ReactElement,
   {
-    // preloadedState = {},
-    // Automatically create a store instance if no store was passed in
     store = configureStore({
       reducer: { authReducer, serversReducer },
-      // preloadedState,
     }),
     ...renderOptions
   } = {}
@@ -21,6 +18,5 @@ export function renderWithProviders(
     return <Provider store={store}>{children}</Provider>;
   }
 
-  // Return an object with the store and all of RTL's query functions
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
