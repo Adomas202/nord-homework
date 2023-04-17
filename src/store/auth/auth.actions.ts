@@ -46,7 +46,7 @@ export interface ClearAuth {
   type: constants.ClearErrors;
 }
 
-function clearAuth(): ClearAuth {
+function clearErr(): ClearAuth {
   return {
     type: constants.CLEAR_ERRORS,
   };
@@ -92,6 +92,6 @@ export function checkAuthentication() {
 
 export function clearErrors() {
   return async (dispatch: Dispatch<AuthenticationAction, unknown, any>) => {
-    dispatch(clearAuth());
+    dispatch(clearErr());
   };
 }
