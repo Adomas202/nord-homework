@@ -8,7 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Navbar from "../../components/Navbar/Navbar";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
-const Servers = () => {
+const ServersPage = () => {
   const dispatch = useDispatch();
   const servers = useSelector(
     (state: AppState) => state.serversReducer.servers
@@ -41,4 +41,4 @@ const Servers = () => {
   );
 };
 
-export default Servers;
+export default ServersPage;

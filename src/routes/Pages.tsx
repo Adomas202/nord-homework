@@ -6,7 +6,7 @@ import {
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import { useSelector } from "react-redux";
 import { AppState } from "../store";
-import Servers from "../Pages/Servers/Servers";
+import Servers from "../Pages/ServersPage/ServersPage";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const Pages = () => {

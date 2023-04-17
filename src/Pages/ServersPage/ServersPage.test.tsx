@@ -1,4 +1,4 @@
-import Servers from "./Servers";
+import Servers from "./ServersPage";
 import { renderWithProviders } from "../../tests/render";
 import { setupStore } from "../../store";
 import { waitFor, within } from "@testing-library/react";
